@@ -17,7 +17,13 @@ jobs:
           java-version: 17
           cache: gradle
 
-      - name: Build Debug APK (no signing needed)
+      # фиксим права и возможные CRLF переноса строк
+      - name: Make gradlew executable
+        run: |
+          sed -i 's/\r$//' gradlew
+          chmod +x gradlew
+
+      - name: Build Debug APK
         run: ./gradlew assembleDebug
 
       - name: Upload APK
@@ -25,3 +31,4 @@ jobs:
         with:
           name: app-debug
           path: app/build/outputs/apk/debug/app-debug.apk
+
